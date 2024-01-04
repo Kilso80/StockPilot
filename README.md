@@ -1,4 +1,4 @@
-# clicker
+# StockPilot
 
 A new Flutter project.
 

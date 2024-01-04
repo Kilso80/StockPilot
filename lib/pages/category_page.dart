@@ -24,10 +24,10 @@ class _CategoryPageState extends State<CategoryPage> {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                title: Text("Ajouter un élément"),
+                title: const Text("Ajouter un élément"),
                 content: TextField(
                   maxLength: 15,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "Nom de l'élément"),
                   autofocus: true,
@@ -35,14 +35,14 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
                 actions: [
                   ActionChip(
-                    label: Text("Annuler"),
+                    label: const Text("Annuler"),
                     onPressed: () {
                       nameController.text = '';
                       Navigator.of(context).pop();
                     },
                   ),
                   ActionChip(
-                      label: Text("Créer"),
+                      label: const Text("Créer"),
                       onPressed: () async {
                         await DataBase().createItem(nameController.text, id);
                         nameController.text = '';
@@ -54,7 +54,7 @@ class _CategoryPageState extends State<CategoryPage> {
     }
 
     if (snapshot.connectionState == ConnectionState.done) {
-      print(snapshot.data);
+      // print(snapshot.data);
       if (snapshot.data == null) {
         return Scaffold(
             appBar: AppBar(
@@ -70,13 +70,13 @@ class _CategoryPageState extends State<CategoryPage> {
             body: Center(
                 child: Column(
               children: [
-                Text("Vérifiez votre connexion et réessayez.",
+                const Text("Vérifiez votre connexion et réessayez.",
                     style: TextStyle(color: Colors.red)),
                 IconButton(
                     onPressed: () {
                       setState(() {});
                     },
-                    icon: Icon(Icons.autorenew))
+                    icon: const Icon(Icons.autorenew))
               ],
             )));
       }
@@ -92,19 +92,20 @@ class _CategoryPageState extends State<CategoryPage> {
             title: Text(categoryName),
           ),
           body: ListView.builder(
-            itemCount: nbItems + 1,
-            itemBuilder: (context, index) => index == nbItems
-                ? Row(
-                    children: [
-                      Expanded(
-                          child: IconButton(
-                              onPressed: () =>
-                                  createItem(context, id),
-                              icon: Icon(Icons.add)))
-                    ],
-                  )
-                : ItemElement(item: items[index], categoryId: id,)
-          ),
+              itemCount: nbItems + 1,
+              itemBuilder: (context, index) => index == nbItems
+                  ? Row(
+                      children: [
+                        Expanded(
+                            child: IconButton(
+                                onPressed: () => createItem(context, id),
+                                icon: const Icon(Icons.add)))
+                      ],
+                    )
+                  : ItemElement(
+                      item: items[index],
+                      categoryId: id,
+                    )),
         );
       }
     } else if (snapshot.connectionState == ConnectionState.waiting) {
@@ -124,13 +125,13 @@ class _CategoryPageState extends State<CategoryPage> {
         body: Center(
             child: Column(
           children: [
-            Text("Une erreur est survenue",
+            const Text("Une erreur est survenue",
                 style: TextStyle(color: Colors.red)),
             IconButton(
                 onPressed: () {
                   setState(() {});
                 },
-                icon: Icon(Icons.autorenew))
+                icon: const Icon(Icons.autorenew))
           ],
         )));
   }

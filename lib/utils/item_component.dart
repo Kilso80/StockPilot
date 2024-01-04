@@ -27,39 +27,40 @@ class _ItemElementState extends State<ItemElement> {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                title: Text("Modifier ou supprimer"),
+                title: const Text("Modifier ou supprimer"),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(), labelText: "Nom*"),
                       maxLength: 15,
                       textInputAction: TextInputAction.next,
                       controller: nameController,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(), labelText: "Stock*"),
                       textInputAction: TextInputAction.next,
                       controller: stockController,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     TextField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(), labelText: "Seuil d'alerte"),
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Seuil d'alerte"),
                       controller: thresholdController,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                   ],
@@ -67,7 +68,7 @@ class _ItemElementState extends State<ItemElement> {
                 actions: [
                   ActionChip(
                     backgroundColor: Colors.red,
-                    label: Text("Supprimer"),
+                    label: const Text("Supprimer"),
                     onPressed: () {
                       DataBase().deleteItem(widget.item!['id']);
                       Navigator.of(context).pop();
@@ -76,7 +77,7 @@ class _ItemElementState extends State<ItemElement> {
                     },
                   ),
                   ActionChip(
-                    label: Text("Enregistrer"),
+                    label: const Text("Enregistrer"),
                     onPressed: () {
                       String name = nameController.text;
                       int stock = int.parse(stockController.text);
@@ -111,7 +112,7 @@ class _ItemElementState extends State<ItemElement> {
     return Row(
       children: [
         IconButton(
-          icon: Icon(Icons.exposure_minus_1),
+          icon: const Icon(Icons.exposure_minus_1),
           onPressed: widget.item!["stock"] > 0
               ? () async {
                   widget.item!["stock"] -= 1;
@@ -128,9 +129,9 @@ class _ItemElementState extends State<ItemElement> {
         Text(widget.item!["threshold"] == null
             ? "${widget.item!["stock"]} en stock"
             : "${widget.item!["stock"]} / ${widget.item!["threshold"]}"),
-        IconButton(onPressed: editItem, icon: Icon(Icons.more_vert)),
+        IconButton(onPressed: editItem, icon: const Icon(Icons.more_vert)),
         IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () async {
               widget.item!["stock"] += 1;
               DataBase().updateItem(widget.item!["id"], widget.item!["name"],

@@ -25,14 +25,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("Êtes-vous sûr de vouloir supprimer votre compte ?"),
+              title: const Text(
+                  "Êtes-vous sûr de vouloir supprimer votre compte ?"),
               actions: [
                 ActionChip(
-                  label: Text("Annuler"),
+                  label: const Text("Annuler"),
                   onPressed: Navigator.of(context).pop,
                 ),
                 ActionChip(
-                  label: Text("Supprimer"),
+                  label: const Text("Supprimer"),
                   onPressed: () async {
                     await idSystem.deleteAccount(context);
                     idSystem.logout();
@@ -49,11 +50,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Profil"),
+          title: const Text("Profil"),
         ),
         body: Column(
           children: [
-            Text('Modifier le nom d\'utilisateur'),
+            const Text('Modifier le nom d\'utilisateur'),
             TextField(
               maxLength: 15,
               controller: idController,
@@ -71,7 +72,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         }));
               },
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   hintText: "Nom d'utilisateur",
                   helperText: "Nom d'utilisateur disponible",
                   errorText:
@@ -81,22 +82,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onPressed: usernameOk && !verifying
                     ? () async {
                         await idSystem.changeUsername(idController.text);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Nom d'utilisateur modifié")));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Nom d'utilisateur modifié")));
                       }
                     : null,
-                child: Text('Enregistrer')),
-            SizedBox(
+                child: const Text('Enregistrer')),
+            const SizedBox(
               height: 4,
             ),
-            Divider(),
-            SizedBox(
+            const Divider(),
+            const SizedBox(
               height: 4,
             ),
-            Text('Modifier le mot de passe'),
+            const Text('Modifier le mot de passe'),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: "Mot de passe"),
               keyboardType: TextInputType.visiblePassword,
               obscureText: true,
@@ -109,27 +111,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ? () async {
                         await idSystem.changePassword(passwordController.text);
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Mot de passe modifié")));
+                            const SnackBar(
+                                content: Text("Mot de passe modifié")));
                       }
                     : null,
-                child: Text('Enregistrer')),
-            SizedBox(
+                child: const Text('Enregistrer')),
+            const SizedBox(
               height: 4,
             ),
-            Divider(),
-            SizedBox(
+            const Divider(),
+            const SizedBox(
               height: 4,
             ),
             ElevatedButton(
                 onPressed: () => logout(context),
-                child: Text('Se déconnecter')),
+                child: const Text('Se déconnecter')),
             ElevatedButton(
                 onPressed: () => deleteAccount(context),
-                child: Text("Supprimer le compte"),
                 style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all(Colors.red),
                     overlayColor: MaterialStateProperty.all(
-                        const Color.fromARGB(112, 244, 67, 54))))
+                        const Color.fromARGB(112, 244, 67, 54))),
+                child: const Text("Supprimer le compte"))
           ],
         ));
   }

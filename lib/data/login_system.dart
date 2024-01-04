@@ -33,14 +33,14 @@ class LoginSystem {
       var json = jsonDecode(res.body);
       switch (json["status"]) {
         case 200:
-          print("Registered");
+          // print("Registered");
           await login();
           return 0;
         case 400:
-          print("Request error");
+          // print("Request error");
           return 1;
         default:
-          print("Server error");
+          // print("Server error");
           return 2;
       }
     } catch (error) {
@@ -58,14 +58,14 @@ class LoginSystem {
         case 200:
           _myBox.put("token", json["token"]);
           _myBox.put("time", DateTime.now().add(const Duration(minutes: 55)));
-          print("Logged in");
+          // print("Logged in");
           return 0;
         case 401:
-          print("Invalid credentials");
-          print(url);
+          // print("Invalid credentials");
+          // print(url);
           return 1;
         default:
-          print("Server error");
+          // print("Server error");
           return 2;
       }
     } catch (error) {
@@ -83,8 +83,8 @@ class LoginSystem {
       return ans;
     } catch (e) {
       ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Vérifiez votre connexion")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Vérifiez votre connexion")));
       return false;
     }
   }
@@ -92,17 +92,19 @@ class LoginSystem {
   Future<void> changeUsername(String newUsername) async {
     String url =
         "http://51.210.102.53/2FIOLET/StockPilot/users/edit/username.php?new=$newUsername";
-    var res = await http.put(Uri.parse(url), headers: getHeader());
+    // var res =
+    await http.put(Uri.parse(url), headers: getHeader());
     _myBox.put("id", newUsername);
-    print(res.body);
+    // print(res.body);
   }
 
   Future<void> changePassword(String newPassword) async {
     String url =
         "http://51.210.102.53/2FIOLET/StockPilot/users/edit/password.php?new=$newPassword";
-    var res = await http.put(Uri.parse(url), headers: getHeader());
+    // var res =
+    await http.put(Uri.parse(url), headers: getHeader());
     _myBox.put("password", newPassword);
-    print(res.body);
+    // print(res.body);
   }
 
   String getUsername() {
@@ -112,13 +114,13 @@ class LoginSystem {
   Future<void> deleteAccount(context) async {
     String url = "http://51.210.102.53/2FIOLET/StockPilot/users/delete.php";
     var res = await http.put(Uri.parse(url), headers: getHeader());
-    print(res.body);
+    // print(res.body);
     if (res.statusCode == 200) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Compte supprimé avec succès")));
-    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Erreur lors de la suppression du compte")));
+          const SnackBar(content: Text("Compte supprimé avec succès")));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Erreur lors de la suppression du compte")));
     }
   }
 }

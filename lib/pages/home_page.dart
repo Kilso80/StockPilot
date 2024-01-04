@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final db = DataBase();
-  
+
   void logout(context) {
     LoginSystem().logout();
     Navigator.of(context).popAndPushNamed('/login');
@@ -24,12 +24,12 @@ class _HomePageState extends State<HomePage> {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-              title: Text("Créer une catégorie"),
+              title: const Text("Créer une catégorie"),
               content: TextField(
                 controller: nameController,
                 maxLength: 15,
                 autofocus: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Nom de la catégorie"),
               ),
@@ -41,13 +41,13 @@ class _HomePageState extends State<HomePage> {
                       Navigator.of(context).pop();
                       setState(() {});
                     },
-                    label: Text("Créer")),
+                    label: const Text("Créer")),
                 ActionChip.elevated(
                     onPressed: () {
                       Navigator.of(context).pop();
                       nameController.text = "";
                     },
-                    label: Text("Annuler")),
+                    label: const Text("Annuler")),
               ],
             ));
   }
@@ -58,12 +58,12 @@ class _HomePageState extends State<HomePage> {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-              title: Text("Modifier une catégorie"),
+              title: const Text("Modifier une catégorie"),
               content: TextField(
                 autofocus: true,
                 controller: nameController,
                 maxLength: 15,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Nom de la catégorie"),
               ),
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                       nameController.text = "";
                       setState(() {});
                     },
-                    label: Text("Supprimer")),
+                    label: const Text("Supprimer")),
                 ActionChip.elevated(
                     onPressed: () async {
                       await db.renameCategory(id, nameController.text);
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                       nameController.text = "";
                       setState(() {});
                     },
-                    label: Text("Sauvegarder")),
+                    label: const Text("Sauvegarder")),
                 // ActionChip.elevated(
                 //     onPressed: () {
                 //       Navigator.of(context).pop();
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildWithData(BuildContext context, AsyncSnapshot<dynamic> snapshot) {
     if (snapshot.connectionState == ConnectionState.done) {
-      print(snapshot.data);
+      // print(snapshot.data);
       if (snapshot.data == null) {
         return Scaffold(
             appBar: AppBar(
@@ -113,13 +113,13 @@ class _HomePageState extends State<HomePage> {
             body: Center(
                 child: Column(
               children: [
-                Text("Vérifiez votre connexion et réessayez.",
+                const Text("Vérifiez votre connexion et réessayez.",
                     style: TextStyle(color: Colors.red)),
                 IconButton(
                     onPressed: () {
                       setState(() {});
                     },
-                    icon: Icon(Icons.autorenew))
+                    icon: const Icon(Icons.autorenew))
               ],
             )));
       }
@@ -147,8 +147,10 @@ class _HomePageState extends State<HomePage> {
               trailing: Text(
                   "${alerts["items"][index]["stock"]}/${alerts["items"][index]["threshold"]}"),
               onTap: () {
-                Navigator.of(context).pushNamed("/category",
-                    arguments: alerts["items"][index]["category"]).then((_) => setState(() {}));
+                Navigator.of(context)
+                    .pushNamed("/category",
+                        arguments: alerts["items"][index]["category"])
+                    .then((_) => setState(() {}));
               },
             ),
             itemCount: alerts["items"].length,
@@ -164,17 +166,21 @@ class _HomePageState extends State<HomePage> {
                         createCategory(context);
                       },
                       child: Padding(
-                          padding: EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(4),
                           child: Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
                                       color: Theme.of(context).primaryColor)),
-                              child: Center(child: Icon(Icons.add_outlined)))))
+                              child: const Center(
+                                  child: Icon(Icons.add_outlined)))))
                   : GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pushNamed("/category",
-                            arguments: categories["categories"][index]["id"]).then((_) => setState(() {}));
+                        Navigator.of(context)
+                            .pushNamed("/category",
+                                arguments: categories["categories"][index]
+                                    ["id"])
+                            .then((_) => setState(() {}));
                       },
                       onLongPress: () {
                         editCategory(
@@ -245,13 +251,13 @@ class _HomePageState extends State<HomePage> {
             body: Center(
                 child: Column(
               children: [
-                Text("Une erreur est survenue",
+                const Text("Une erreur est survenue",
                     style: TextStyle(color: Colors.red)),
                 IconButton(
                     onPressed: () {
                       setState(() {});
                     },
-                    icon: Icon(Icons.autorenew))
+                    icon: const Icon(Icons.autorenew))
               ],
             )));
       }

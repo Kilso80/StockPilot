@@ -54,9 +54,15 @@ class DataBase {
     print(res.body);
   }
 
-  Future<void> updateItem(id, String name, category, int stock, int? threshold) async {
-    String url = "http://51.210.102.53/2FIOLET/StockPilot/items/?name=$name&category=$category&stock=$stock&threshold=$threshold";
-    var res = await http.post(Uri.parse(url), headers: idSystem.getHeader());
+  Future<void> updateItem(id, String name, int stock, int? threshold) async {
+    String url = "http://51.210.102.53/2FIOLET/StockPilot/items/?id=$id&name=$name&stock=$stock&threshold=$threshold";
+    var res = await http.put(Uri.parse(url), headers: idSystem.getHeader());
+    print(res.body);
+  }
+
+  Future<void> deleteItem(id) async {
+    String url = "http://51.210.102.53/2FIOLET/StockPilot/items/?id=$id";
+    var res = await http.delete(Uri.parse(url), headers: idSystem.getHeader());
     print(res.body);
   }
 

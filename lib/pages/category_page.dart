@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stockpilot/data/database.dart';
 import 'package:stockpilot/data/login_system.dart';
+import 'package:stockpilot/utils/item_component.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
@@ -84,6 +85,7 @@ class _CategoryPageState extends State<CategoryPage> {
         String categoryName = snapshot.data!["name"];
         List items = snapshot.data!["items"];
         int nbItems = snapshot.data!["itemCount"];
+        int id = snapshot.data!["id"];
 
         return Scaffold(
           appBar: AppBar(
@@ -97,24 +99,11 @@ class _CategoryPageState extends State<CategoryPage> {
                       Expanded(
                           child: IconButton(
                               onPressed: () =>
-                                  createItem(context, snapshot.data!["id"]),
+                                  createItem(context, id),
                               icon: Icon(Icons.add)))
                     ],
                   )
-                : Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.exposure_minus_1),
-                        onPressed: () {},
-                      ),
-                      Expanded(child: Text(items[index]["name"])),
-                      Text(items[index]["threshold"] == null
-                          ? "${items[index]["stock"]} en stock"
-                          : "${items[index]["stock"]} / ${items[index]["threshold"]}"),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
-                      IconButton(icon: Icon(Icons.add), onPressed: () {}),
-                    ],
-                  ),
+                : ItemElement(item: items[index], categoryId: id,)
           ),
         );
       }
@@ -148,7 +137,6 @@ class _CategoryPageState extends State<CategoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    LoginSystem().login();
     DataBase db = DataBase();
     int id = int.parse(ModalRoute.of(context)!.settings.arguments as String);
     return FutureBuilder(

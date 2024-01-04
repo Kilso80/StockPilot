@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final db = DataBase();
-
+  
   void logout(context) {
     LoginSystem().logout();
     Navigator.of(context).popAndPushNamed('/login');
@@ -125,7 +125,8 @@ class _HomePageState extends State<HomePage> {
       }
       Map categories = snapshot.data[0];
       Map alerts = snapshot.data[1];
-      if (snapshot.data[0]["status"] == null && snapshot.data[1]["status"] == 200) {
+      if (snapshot.data[0]["status"] == null &&
+          snapshot.data[1]["status"] == 200) {
         String idToCategoryName(id) {
           for (var category in categories["categories"]) {
             if (category["id"] == id) return category["name"];
@@ -147,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                   "${alerts["items"][index]["stock"]}/${alerts["items"][index]["threshold"]}"),
               onTap: () {
                 Navigator.of(context).pushNamed("/category",
-                    arguments: alerts["items"][index]["category"]);
+                    arguments: alerts["items"][index]["category"]).then((_) => setState(() {}));
               },
             ),
             itemCount: alerts["items"].length,
@@ -173,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                   : GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamed("/category",
-                            arguments: categories["categories"][index]["id"]);
+                            arguments: categories["categories"][index]["id"]).then((_) => setState(() {}));
                       },
                       onLongPress: () {
                         editCategory(
@@ -263,7 +264,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    LoginSystem().login();
     return FutureBuilder(
         future: db.getCategoriesAndAlerts(), builder: buildWithData);
   }

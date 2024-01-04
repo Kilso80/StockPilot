@@ -19,25 +19,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-    final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
-
     return MaterialApp(
       title: _title,
       theme: ThemeData(
-        primaryColor: Colors.blueGrey,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey, brightness: Brightness.dark)
-      ),
+          primaryColor: Colors.blueGrey,
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.blueGrey, brightness: Brightness.dark)),
       initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/category': (context) => const CategoryPage(),
-        '/editProfile':(context) => const EditProfilePage()
+        '/editProfile': (context) => const EditProfilePage()
       },
-      navigatorKey: navigatorKey,
     );
   }
 }

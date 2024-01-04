@@ -179,6 +179,12 @@ class _HomePageState extends State<HomePage> {
                             categories["categories"][index]["id"],
                             categories["categories"][index]["name"]);
                       },
+                      onSecondaryTap: () {
+                        editCategory(
+                            context,
+                            categories["categories"][index]["id"],
+                            categories["categories"][index]["name"]);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(4),
                         child: Container(

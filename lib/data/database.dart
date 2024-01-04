@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:stockpilot/data/login_system.dart';
 import 'package:http/http.dart' as http;
 

@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
               content: TextField(
                 controller: nameController,
                 maxLength: 15,
+                autofocus: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Nom de la catégorie"),
@@ -59,6 +60,7 @@ class _HomePageState extends State<HomePage> {
         builder: (_) => AlertDialog(
               title: Text("Modifier une catégorie"),
               content: TextField(
+                autofocus: true,
                 controller: nameController,
                 maxLength: 15,
                 decoration: InputDecoration(

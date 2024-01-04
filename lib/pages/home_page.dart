@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
       }
       Map categories = snapshot.data[0];
       Map alerts = snapshot.data[1];
-      if (snapshot.data[0]["status"] == null) {
+      if (snapshot.data[0]["status"] == null && snapshot.data[1]["status"] == 200) {
         String idToCategoryName(id) {
           for (var category in categories["categories"]) {
             if (category["id"] == id) return category["name"];
@@ -263,6 +263,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    LoginSystem().login();
     return FutureBuilder(
         future: db.getCategoriesAndAlerts(), builder: buildWithData);
   }

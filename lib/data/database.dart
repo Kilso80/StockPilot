@@ -40,4 +40,24 @@ class DataBase {
   Future<List<Map>> getCategoriesAndAlerts() async {
     return [await getCategories(), await getAlerts()];
   }
+
+  Future<Map> getItemsOfCategory(categoryId) async {
+    String url = "http://51.210.102.53/2FIOLET/StockPilot/categories/?id=$categoryId";
+    var res = await http.get(Uri.parse(url), headers: idSystem.getHeader());
+    print(res.body);
+    return jsonDecode(res.body);
+  }
+
+  Future<void> createItem(String name, category) async {
+    String url = "http://51.210.102.53/2FIOLET/StockPilot/items/?name=$name&category=$category";
+    var res = await http.post(Uri.parse(url), headers: idSystem.getHeader());
+    print(res.body);
+  }
+
+  Future<void> updateItem(id, String name, category, int stock, int? threshold) async {
+    String url = "http://51.210.102.53/2FIOLET/StockPilot/items/?name=$name&category=$category&stock=$stock&threshold=$threshold";
+    var res = await http.post(Uri.parse(url), headers: idSystem.getHeader());
+    print(res.body);
+  }
+
 }

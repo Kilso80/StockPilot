@@ -55,6 +55,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           children: [
             Text('Modifier le nom d\'utilisateur'),
             TextField(
+              maxLength: 15,
               controller: idController,
               onChanged: (value) {
                 setState(() {

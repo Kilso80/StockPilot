@@ -31,7 +31,6 @@ class _ItemElementState extends State<ItemElement> {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // TODO
                     TextField(
                       decoration: InputDecoration(
                           border: OutlineInputBorder(), labelText: "Nom*"),
@@ -55,7 +54,7 @@ class _ItemElementState extends State<ItemElement> {
                     ),
                     TextField(
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(), labelText: "Seuil"),
+                          border: OutlineInputBorder(), labelText: "Seuil d'alerte"),
                       controller: thresholdController,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -79,7 +78,6 @@ class _ItemElementState extends State<ItemElement> {
                   ActionChip(
                     label: Text("Enregistrer"),
                     onPressed: () {
-                      // TODO
                       String name = nameController.text;
                       int stock = int.parse(stockController.text);
                       int? threshold = thresholdController.text == ""

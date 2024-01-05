@@ -33,6 +33,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   onPressed: Navigator.of(context).pop,
                 ),
                 ActionChip(
+                  backgroundColor: Colors.red,
                   label: const Text("Supprimer"),
                   onPressed: () async {
                     await idSystem.deleteAccount(context);
@@ -106,6 +107,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               autocorrect: false,
               onChanged: (_) => setState(() {}),
             ),
+            const SizedBox(
+              height: 14,
+            ),
             ElevatedButton(
                 onPressed: passwordController.text != ""
                     ? () async {
@@ -126,6 +130,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ElevatedButton(
                 onPressed: () => logout(context),
                 child: const Text('Se déconnecter')),
+            const SizedBox(
+              height: 14,
+            ),
             ElevatedButton(
                 onPressed: () => deleteAccount(context),
                 style: ButtonStyle(

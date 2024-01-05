@@ -8,7 +8,7 @@ import 'pages/login_page.dart';
 
 void main() async {
   await Hive.initFlutter();
-
+  await Hive.openBox("credentials");
   runApp(const MyApp());
 }
 

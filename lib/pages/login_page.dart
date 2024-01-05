@@ -60,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
           TextField(
             controller: idController,
             decoration: const InputDecoration(hintText: "Identifiant"),
+            textInputAction: TextInputAction.next,
           ),
           TextField(
             controller: passwordController,

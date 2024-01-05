@@ -83,6 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
             controller: idController,
             decoration: InputDecoration(
                 hintText: "Identifiant", helperText: usernameMsg),
+            textInputAction: TextInputAction.next,
             maxLength: 15,
             onChanged: checkUsername,
           ),

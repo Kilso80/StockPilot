@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                     hintText: "Nom de la catégorie"),
               ),
               actions: [
-                ActionChip.elevated(
+                ActionChip(
                     onPressed: () async {
                       await db.createCategory(nameController.text);
                       nameController.text = "";
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
                       setState(() {});
                     },
                     label: const Text("Créer")),
-                ActionChip.elevated(
+                ActionChip(
                     onPressed: () {
                       Navigator.of(context).pop();
                       nameController.text = "";
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                     hintText: "Nom de la catégorie"),
               ),
               actions: [
-                ActionChip.elevated(
+                ActionChip(
                     backgroundColor: Colors.red,
                     onPressed: () async {
                       await db.deleteCategory(id);
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                       setState(() {});
                     },
                     label: const Text("Supprimer")),
-                ActionChip.elevated(
+                ActionChip(
                     onPressed: () async {
                       await db.renameCategory(id, nameController.text);
                       Navigator.of(context).pop();
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                       setState(() {});
                     },
                     label: const Text("Sauvegarder")),
-                // ActionChip.elevated(
+                // ActionChip(
                 //     onPressed: () {
                 //       Navigator.of(context).pop();
                 //       nameController.text = "";

@@ -4,22 +4,23 @@ import 'package:http/http.dart' as http;
 
 class DataBase {
   LoginSystem idSystem = LoginSystem();
+  String apiRootUrl = "https://nsi.stefa.org/stockpilot/API/";
 
   Future<Map> getCategories() async {
-    String url = "http://51.210.102.53/2FIOLET/StockPilot/categories";
+    String url = "${apiRootUrl}categories";
     var res = await http.get(Uri.parse(url), headers: idSystem.getHeader());
     return jsonDecode(res.body);
   }
 
   Future<Map> getAlerts() async {
-    String url = "http://51.210.102.53/2FIOLET/StockPilot/items";
+    String url = "${apiRootUrl}items";
     var res = await http.get(Uri.parse(url), headers: idSystem.getHeader());
     return jsonDecode(res.body);
   }
 
   Future<void> createCategory(String name) async {
     String url =
-        "http://51.210.102.53/2FIOLET/StockPilot/categories/?name=$name";
+        "${apiRootUrl}categories/?name=$name";
     // var res = 
     await http.post(Uri.parse(url), headers: idSystem.getHeader());
     // print(res.body);
@@ -27,14 +28,14 @@ class DataBase {
 
   Future<void> renameCategory(id, String name) async {
     String url =
-        "http://51.210.102.53/2FIOLET/StockPilot/categories/?id=$id&name=$name";
+        "${apiRootUrl}categories/?id=$id&name=$name";
     // var res = 
     await http.put(Uri.parse(url), headers: idSystem.getHeader());
     // print(res.body);
   }
 
   Future<void> deleteCategory(id) async {
-    String url = "http://51.210.102.53/2FIOLET/StockPilot/categories/?id=$id";
+    String url = "${apiRootUrl}categories/?id=$id";
     // var res = 
     await http.delete(Uri.parse(url), headers: idSystem.getHeader());
     // print(res.body);
@@ -45,28 +46,28 @@ class DataBase {
   }
 
   Future<Map> getItemsOfCategory(categoryId) async {
-    String url = "http://51.210.102.53/2FIOLET/StockPilot/categories/?id=$categoryId";
+    String url = "${apiRootUrl}categories/?id=$categoryId";
     var res = await http.get(Uri.parse(url), headers: idSystem.getHeader());
     // print(res.body);
     return jsonDecode(res.body);
   }
 
   Future<void> createItem(String name, category) async {
-    String url = "http://51.210.102.53/2FIOLET/StockPilot/items/?name=$name&category=$category";
+    String url = "${apiRootUrl}items/?name=$name&category=$category";
     // var res = 
     await http.post(Uri.parse(url), headers: idSystem.getHeader());
     // print(res.body);
   }
 
   Future<void> updateItem(id, String name, int stock, int? threshold) async {
-    String url = "http://51.210.102.53/2FIOLET/StockPilot/items/?id=$id&name=$name&stock=$stock&threshold=$threshold";
+    String url = "${apiRootUrl}items/?id=$id&name=$name&stock=$stock&threshold=$threshold";
     // var res = 
     await http.put(Uri.parse(url), headers: idSystem.getHeader());
     // print(res.body);
   }
 
   Future<void> deleteItem(id) async {
-    String url = "http://51.210.102.53/2FIOLET/StockPilot/items/?id=$id";
+    String url = "${apiRootUrl}items/?id=$id";
     // var res = 
     await http.delete(Uri.parse(url), headers: idSystem.getHeader());
     // print(res.body);

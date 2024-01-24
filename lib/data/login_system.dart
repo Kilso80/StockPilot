@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 class LoginSystem {
   final _myBox = Hive.box("credentials");
+  String apiRootUrl = "https://nsi.stefa.org/stockpilot/API/";
 
   Map<String, String> getHeader() {
     if (_myBox.get("time") == null) {
@@ -28,7 +29,7 @@ class LoginSystem {
   Future<int> register() async {
     try {
       String url =
-          "http://51.210.102.53/2FIOLET/StockPilot/users/register/?username=${_myBox.get('id')}&password=${_myBox.get("password")}";
+          "${apiRootUrl}users/register/?username=${_myBox.get('id')}&password=${_myBox.get("password")}";
       var res = await http.post(Uri.parse(url));
       var json = jsonDecode(res.body);
       switch (json["status"]) {
@@ -51,7 +52,7 @@ class LoginSystem {
   Future<int> login() async {
     try {
       String url =
-          "http://51.210.102.53/2FIOLET/StockPilot/users/login/?username=${_myBox.get('id')}&password=${_myBox.get("password")}";
+          "${apiRootUrl}users/login/?username=${_myBox.get('id')}&password=${_myBox.get("password")}";
       var res = await http.get(Uri.parse(url));
       var json = jsonDecode(res.body);
       switch (json["status"]) {
@@ -77,7 +78,7 @@ class LoginSystem {
       String username, BuildContext context) async {
     try {
       String url =
-          "http://51.210.102.53/2FIOLET/StockPilot/users/register/is_username_taken.php?username=$username";
+          "${apiRootUrl}users/register/is_username_taken.php?username=$username";
       var res = await http.get(Uri.parse(url));
       bool ans = jsonDecode(res.body)["disponible"];
       return ans;
@@ -91,7 +92,7 @@ class LoginSystem {
 
   Future<void> changeUsername(String newUsername) async {
     String url =
-        "http://51.210.102.53/2FIOLET/StockPilot/users/edit/username.php?new=$newUsername";
+        "${apiRootUrl}users/edit/username.php?new=$newUsername";
     // var res =
     await http.put(Uri.parse(url), headers: getHeader());
     _myBox.put("id", newUsername);
@@ -100,7 +101,7 @@ class LoginSystem {
 
   Future<void> changePassword(String newPassword) async {
     String url =
-        "http://51.210.102.53/2FIOLET/StockPilot/users/edit/password.php?new=$newPassword";
+        "${apiRootUrl}users/edit/password.php?new=$newPassword";
     // var res =
     await http.put(Uri.parse(url), headers: getHeader());
     _myBox.put("password", newPassword);
@@ -112,7 +113,7 @@ class LoginSystem {
   }
 
   Future<void> deleteAccount(context) async {
-    String url = "http://51.210.102.53/2FIOLET/StockPilot/users/delete.php";
+    String url = "${apiRootUrl}users/delete.php";
     var res = await http.put(Uri.parse(url), headers: getHeader());
     // print(res.body);
     if (res.statusCode == 200) {

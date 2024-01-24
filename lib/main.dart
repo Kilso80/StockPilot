@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterPage(),
         '/category': (context) => const CategoryPage(),
         '/editProfile': (context) => const EditProfilePage()
-      },
+      }, // Déclare les routes (chemins d'accès) vers les différentes pages
     );
   }
 }

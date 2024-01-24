@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stockpilot/data/login_system.dart';
 
+// Ce fichier me semble assez clair, en dehors de la fonction login je n'ai pas l'impression qu'il y ait besoin de commentaires
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -21,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
     if (ans == 0) {
       // Successfully logged in
       while (Navigator.canPop(context)) {
-        Navigator.pop(context);
+        Navigator.pop(context); // Vide les pages précédentes (il peut y en avoir beaucoup si l'utilisateur a alterné entre les pages login/register
       }
       setState(() {
         msg = "";

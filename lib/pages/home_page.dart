@@ -248,7 +248,7 @@ class _HomePageState extends State<HomePage> {
         // L'authentification a échoué. On ne déconnecte pas l'utilisateur au cas où c'est une erreur de notre part, mais on le renvoie vers la page de connexion 
         return const LoginPage();
       } else {
-        // wtf, jsp ce qu'il a pû se passer, c'est probablement une erreur serveur (code 500)
+        // jsp ce qu'il a pû se passer, c'est probablement une erreur serveur (code 500)(wtf, c'est pas possible puisque c'est moi qui ai codé l'API et qu'elle est donc parfaite)(enfin presque 👀)(oui il y a beaucoup trop de parenthèses)(oui je fais exprès d'en ajouter)(je ne sais pas quoi dire de plus)
         return Scaffold(
             appBar: AppBar(
               title: const Text("StockPilot"),
@@ -274,8 +274,10 @@ class _HomePageState extends State<HomePage> {
             )));
       }
     } else if (snapshot.connectionState == ConnectionState.waiting) {
+      // Il faut attendre que la requête se fasse...
       return const Center(child: CircularProgressIndicator());
     } else {
+      // Une erreur bizarre a eu lieu
       return const LoginPage();
     }
   }
@@ -283,6 +285,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: db.getCategoriesAndAlerts(), builder: buildWithData);
+        future: db.getCategoriesAndAlerts(), builder: buildWithData); // Widget se mettant à jour en fonction de l'état de la requête, car la fonction build ne peut pas être asynchrone donc je ne peux pas juste attendre la réponse du serveur avant de retourner la page
   }
 }

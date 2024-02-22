@@ -47,8 +47,8 @@ class DataBase {
     // print(res.body);
   }
 
-  Future<List<Map>> getCategoriesAndAlerts() async {
-    return [await getCategories(), await getAlerts()];
+  Future<List> getCategoriesAndAlerts() async {
+    return [await getCategories(), await getAlerts(), await idSystem.isAdmin()];
   }
 
   Future<Map> getItemsOfCategory(categoryId) async {

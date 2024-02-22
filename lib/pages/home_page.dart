@@ -225,7 +225,17 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
             appBar: AppBar(
               title: const Text("StockPilot"),
-              actions: [
+              actions: snapshot.data[3]? [
+                IconButton(
+                    icon: const Icon(Icons.upload),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/import');
+                    }),
+                IconButton(
+                    icon: const Icon(Icons.download),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/export');
+                    }),
                 IconButton(
                     icon: const Icon(Icons.person),
                     onPressed: () {
@@ -236,7 +246,11 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       logout(context);
                     })
-              ],
+              ]: [IconButton(
+                    icon: const Icon(Icons.logout),
+                    onPressed: () {
+                      logout(context);
+                    })],
             ),
             body: Container( // Si la largeur est plus importante que la hauteur ou qu'elle dépasse un certain seuil, on veut un display horizontal, sinon on préfèrera un vertical (sur téléphone par exemple)
                 child: MediaQuery.of(context).size.width >

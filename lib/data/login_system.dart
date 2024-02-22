@@ -26,6 +26,18 @@ class LoginSystem {
     _myBox.put("password", password);
   }
 
+  Future<bool> isAdmin() async {
+    String url = "${apiRootUrl}users/organizations/isAdmin.php";
+    var res = await http.put(Uri.parse(url), headers: getHeader());
+    return res.statusCode == 200;
+  }
+
+  Future<List<Map>> getSubUsers() async {
+    String url = "${apiRootUrl}users/organizations/isAdmin.php";
+    var res = await http.put(Uri.parse(url), headers: getHeader());
+    return jsonDecode(res.body);
+  }
+
   Future<int> register() async {
     try {
       String url =

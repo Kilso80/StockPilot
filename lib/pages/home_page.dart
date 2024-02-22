@@ -225,7 +225,7 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
             appBar: AppBar(
               title: const Text("StockPilot"),
-              actions: snapshot.data[3]? [
+              actions: snapshot.data[2]? [
                 IconButton(
                     icon: const Icon(Icons.upload),
                     onPressed: () {

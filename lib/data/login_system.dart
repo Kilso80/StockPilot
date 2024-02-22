@@ -29,7 +29,7 @@ class LoginSystem {
   Future<int> register() async {
     try {
       String url =
-          "${apiRootUrl}users/register/?username=${_myBox.get('id')}&password=${_myBox.get("password")}";
+          "${apiRootUrl}users/register/index.php?username=${_myBox.get('id')}&password=${_myBox.get("password")}";
       var res = await http.post(Uri.parse(url));
       var json = jsonDecode(res.body);
       switch (json["status"]) {
@@ -51,25 +51,28 @@ class LoginSystem {
 
   Future<int> login() async {
     try {
-      String url =
-          "${apiRootUrl}users/login/?username=${_myBox.get('id')}&password=${_myBox.get("password")}";
-      var res = await http.get(Uri.parse(url));
+      var res = await http.get(Uri.https(
+          "nsi.stefa.org",
+          "/stockpilot/API/users/login/index.php",
+          {"username": _myBox.get('id'), "password": _myBox.get('password')}));
+      print(jsonDecode(res.body));
       var json = jsonDecode(res.body);
       switch (json["status"]) {
         case 200:
           _myBox.put("token", json["token"]);
           _myBox.put("time", DateTime.now().add(const Duration(minutes: 55)));
-          // print("Logged in");
+          print("Logged in ${json['token']}");
           return 0;
         case 401:
-          // print("Invalid credentials");
+          print("Invalid credentials");
           // print(url);
           return 1;
         default:
-          // print("Server error");
+          print("Server error");
           return 2;
       }
     } catch (error) {
+      print("Connexion error");
       return 3; // Connexion error
     }
   }
@@ -91,8 +94,7 @@ class LoginSystem {
   }
 
   Future<void> changeUsername(String newUsername) async {
-    String url =
-        "${apiRootUrl}users/edit/username.php?new=$newUsername";
+    String url = "${apiRootUrl}users/edit/username.php?new=$newUsername";
     // var res =
     await http.put(Uri.parse(url), headers: getHeader());
     _myBox.put("id", newUsername);
@@ -100,8 +102,7 @@ class LoginSystem {
   }
 
   Future<void> changePassword(String newPassword) async {
-    String url =
-        "${apiRootUrl}users/edit/password.php?new=$newPassword";
+    String url = "${apiRootUrl}users/edit/password.php?new=$newPassword";
     // var res =
     await http.put(Uri.parse(url), headers: getHeader());
     _myBox.put("password", newPassword);

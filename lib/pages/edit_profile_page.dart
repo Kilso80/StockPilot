@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stockpilot/data/login_system.dart';
+import 'package:stockpilot/utils/sub_user_list.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -53,7 +54,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         appBar: AppBar(
           title: const Text("Profil"),
         ),
-        body: Column(
+        body: ListView(
           children: [
             const Text('Modifier le nom d\'utilisateur'),
             TextField(
@@ -139,7 +140,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     foregroundColor: MaterialStateProperty.all(Colors.red),
                     overlayColor: MaterialStateProperty.all(
                         const Color.fromARGB(112, 244, 67, 54))),
-                child: const Text("Supprimer le compte"))
+                child: const Text("Supprimer le compte")),
+            const Divider(),
+            const SubUsersList(),
           ],
         ));
   }

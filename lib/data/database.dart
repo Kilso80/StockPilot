@@ -56,7 +56,7 @@ class DataBase {
     var res = await http.get(
         Uri.parse("https://$apiDomain$apiPath$path?id=$categoryId"),
         headers: idSystem.getHeader());
-    print(res.body);
+    // print(res.body);
     return jsonDecode(res.body);
   }
 

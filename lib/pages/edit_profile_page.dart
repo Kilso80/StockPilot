@@ -142,6 +142,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         const Color.fromARGB(112, 244, 67, 54))),
                 child: const Text("Supprimer le compte")),
             const Divider(),
+            const Center(child: Text("Gérer vos utilisateurs")),
             const SubUsersList(),
           ],
         ));

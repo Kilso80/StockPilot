@@ -28,13 +28,13 @@ class LoginSystem {
 
   Future<bool> isAdmin() async {
     String url = "${apiRootUrl}users/organizations/isAdmin.php";
-    var res = await http.put(Uri.parse(url), headers: getHeader());
+    var res = await http.get(Uri.parse(url), headers: getHeader());
     return res.statusCode == 200;
   }
 
-  Future<List<Map>> getSubUsers() async {
-    String url = "${apiRootUrl}users/organizations/isAdmin.php";
-    var res = await http.put(Uri.parse(url), headers: getHeader());
+  Future<List> getSubUsers() async {
+    String url = "${apiRootUrl}users/organizations/getUsers.php";
+    var res = await http.get(Uri.parse(url), headers: getHeader());
     return jsonDecode(res.body);
   }
 
@@ -67,7 +67,7 @@ class LoginSystem {
           "nsi.stefa.org",
           "/stockpilot/API/users/login/index.php",
           {"username": _myBox.get('id'), "password": _myBox.get('password')}));
-      print(jsonDecode(res.body));
+      // print(jsonDecode(res.body));
       var json = jsonDecode(res.body);
       switch (json["status"]) {
         case 200:
@@ -105,16 +105,16 @@ class LoginSystem {
     }
   }
 
-  Future<void> changeUsername(String newUsername) async {
-    String url = "${apiRootUrl}users/edit/username.php?new=$newUsername";
+  Future<void> changeUsername(String newUsername, [target]) async {
+    String url = "${apiRootUrl}users/edit/username.php?new=$newUsername${target == null? '': '&target=$target'}";
     // var res =
     await http.put(Uri.parse(url), headers: getHeader());
     _myBox.put("id", newUsername);
     // print(res.body);
   }
 
-  Future<void> changePassword(String newPassword) async {
-    String url = "${apiRootUrl}users/edit/password.php?new=$newPassword";
+  Future<void> changePassword(String newPassword, [target]) async {
+    String url = "${apiRootUrl}users/edit/password.php?new=$newPassword${target == null? '': '&target=$target'}";
     // var res =
     await http.put(Uri.parse(url), headers: getHeader());
     _myBox.put("password", newPassword);
@@ -125,10 +125,15 @@ class LoginSystem {
     return _myBox.get("id");
   }
 
-  Future<void> deleteAccount(context) async {
-    String url = "${apiRootUrl}users/delete.php";
-    var res = await http.put(Uri.parse(url), headers: getHeader());
-    // print(res.body);
+  Future<void> createSubAccount(String username, String password) async {
+    String url =
+        "${apiRootUrl}users/register/index.php?subUser&username=$username&password=$password";
+    await http.post(Uri.parse(url), headers: getHeader());
+  }
+
+  Future<void> deleteAccount(context, [target]) async {
+    String url = "${apiRootUrl}users/delete.php${target == null? '': '?target=$target'}";
+    var res = await http.delete(Uri.parse(url), headers: getHeader());
     if (res.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Compte supprimé avec succès")));

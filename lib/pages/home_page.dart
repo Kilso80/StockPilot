@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void createCategory(context) {
-    // Affiche une popup permettant de créer une catégorie 
+    // Affiche une popup permettant de créer une catégorie
     TextEditingController nameController = TextEditingController();
 
     showDialog(
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void editCategory(context, id, name) {
-    // Affiche une popup permettant de renommer ou de supprimer une catégorie 
+    // Affiche une popup permettant de renommer ou de supprimer une catégorie
     TextEditingController nameController = TextEditingController(text: name);
 
     showDialog(
@@ -77,7 +77,8 @@ class _HomePageState extends State<HomePage> {
                       await db.deleteCategory(id);
                       Navigator.of(context).pop();
                       nameController.text = "";
-                      setState(() {}); // Reload la page (sans la catégorie supprimée)
+                      setState(
+                          () {}); // Reload la page (sans la catégorie supprimée)
                     },
                     label: const Text("Supprimer")),
                 ActionChip(
@@ -85,7 +86,8 @@ class _HomePageState extends State<HomePage> {
                       await db.renameCategory(id, nameController.text);
                       Navigator.of(context).pop();
                       nameController.text = "";
-                      setState(() {}); // Juste reload la page principale pour afficher le nouveau nom de la catégorie 
+                      setState(
+                          () {}); // Juste reload la page principale pour afficher le nouveau nom de la catégorie
                     },
                     label: const Text("Sauvegarder")),
                 // Ce bouton est désactivé pour éviter la surcharge visuelle. On obtient le même résultat en cliquant en dehors de la popup, donc il n'est pas indispensable et j'ai donc décidé de ne pas le garder
@@ -99,12 +101,55 @@ class _HomePageState extends State<HomePage> {
             ));
   }
 
+  void importCsv(BuildContext context) {
+    TextEditingController controller = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Importer depuis le format csv"),
+        content: Column(children: [
+          const Text(
+              'Respectez le format suivant : `catégorie`,`nom`,`stock`,`seuil` pour chaque ligne'),
+          SizedBox(
+            height: 200.0,
+            child: TextField(
+              keyboardType: TextInputType.multiline,
+              expands: true,
+              maxLines: null,
+              minLines: null,
+              controller: controller,
+            ),
+          ),
+          const Text("Attention ! Cela effacera vos données existantes")
+        ]),
+        actions: [
+          ActionChip(
+              onPressed: () {
+                Navigator.of(context).pop();
+                controller.text = "";
+              },
+              label: const Text("Annuler")),
+          ActionChip(
+              backgroundColor: Colors.red,
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await DataBase().import(context, controller.text);
+                controller.text = "";
+                setState(() {});
+              },
+              label: const Text("Enregistrer")),
+        ],
+      ),
+    );
+  }
+
   Widget buildWithData(BuildContext context, AsyncSnapshot<dynamic> snapshot) {
     if (snapshot.connectionState == ConnectionState.done) {
-      // La requête est terminée 
+      // La requête est terminée
       // print(snapshot.data);
       if (snapshot.data == null) {
-        // Aucun résultat n'a été récupéré de la requête. Cela arrive quand l'utilisateur n'a pas de connexion 
+        // Aucun résultat n'a été récupéré de la requête. Cela arrive quand l'utilisateur n'a pas de connexion
         return Scaffold(
             appBar: AppBar(
               title: const Text("StockPilot"),
@@ -142,7 +187,7 @@ class _HomePageState extends State<HomePage> {
           return "";
         }
 
-        // Cette liste est la liste des items sur la gauche de l'écran, triée par proximité au seuil d'alerte ainsi que la liste des catégories sur la droite 
+        // Cette liste est la liste des items sur la gauche de l'écran, triée par proximité au seuil d'alerte ainsi que la liste des catégories sur la droite
         List<Widget> children = [
           Expanded(
               child: ListView.builder(
@@ -154,22 +199,27 @@ class _HomePageState extends State<HomePage> {
               subtitle:
                   Text(idToCategoryName(alerts["items"][index]["category"])),
               trailing: Text(
-                  "${alerts["items"][index]["stock"]}/${alerts["items"][index]["threshold"]}"), // Pas besoin de gérer les cas où le seuil n'est pas défini, puisque seuls les items avec un seuil sont retournés par la requête 
+                  "${alerts["items"][index]["stock"]}/${alerts["items"][index]["threshold"]}"), // Pas besoin de gérer les cas où le seuil n'est pas défini, puisque seuls les items avec un seuil sont retournés par la requête
               onTap: () {
                 Navigator.of(context)
                     .pushNamed("/category",
                         arguments: alerts["items"][index]["category"])
-                    .then((_) => setState(() {})); // CE SETSTATE EST IMPORTANT. Il est appelé lorsque la page catégorie ouverte par clic sur un item est fermée, sans lui les informations de la page ne seraient pas mises à jour avec les possibles modifications effectuées 
+                    .then((_) => setState(
+                        () {})); // CE SETSTATE EST IMPORTANT. Il est appelé lorsque la page catégorie ouverte par clic sur un item est fermée, sans lui les informations de la page ne seraient pas mises à jour avec les possibles modifications effectuées
               },
             ),
             itemCount: alerts["items"].length,
           )),
           Expanded(
-            flex: 2,// Pour que la liste des catégories prenne deux tiers de la place, et que les items n'en prennent qu'un seul 
+            flex:
+                2, // Pour que la liste des catégories prenne deux tiers de la place, et que les items n'en prennent qu'un seul
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 250, childAspectRatio: 1.618), // Golden ratio parce que j'avais pas d'idée et que ça s'approchait de ce que je voulais
-              itemBuilder: (context, index) => categories["n"] == index // On vérifie ça car le dernier élément ne doit pas être une catégorie mais le bouton pour en créér une nouvelle 
+                  maxCrossAxisExtent: 250,
+                  childAspectRatio:
+                      1.618), // Golden ratio parce que j'avais pas d'idée et que ça s'approchait de ce que je voulais
+              itemBuilder: (context, index) => categories["n"] ==
+                      index // On vérifie ça car le dernier élément ne doit pas être une catégorie mais le bouton pour en créér une nouvelle
                   ? GestureDetector(
                       onTap: () {
                         createCategory(context);
@@ -182,16 +232,20 @@ class _HomePageState extends State<HomePage> {
                                   border: Border.all(
                                       color: Theme.of(context).primaryColor)),
                               child: const Center(
-                                  child: Icon(Icons.add_outlined))))) // Bouton création de catégorie 
-                  : GestureDetector( // Élément catégorie 
+                                  child: Icon(Icons
+                                      .add_outlined))))) // Bouton création de catégorie
+                  : GestureDetector(
+                      // Élément catégorie
                       onTap: () {
                         Navigator.of(context)
                             .pushNamed("/category",
-                                arguments: categories["categories"][index]["id"])
-                            .then((_) => setState(() {})); // Comme plus haut, réactualise la page avec les données possiblement modifiées par l'utilisateur 
+                                arguments: categories["categories"][index]
+                                    ["id"])
+                            .then((_) => setState(
+                                () {})); // Comme plus haut, réactualise la page avec les données possiblement modifiées par l'utilisateur
                       },
                       onLongPress: () {
-                        // Affiche la boîte de dialogue permettant de modifier ou supprimer la catégorie 
+                        // Affiche la boîte de dialogue permettant de modifier ou supprimer la catégorie
                         editCategory(
                             context,
                             categories["categories"][index]["id"],
@@ -225,41 +279,46 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
             appBar: AppBar(
               title: const Text("StockPilot"),
-              actions: snapshot.data[2]? [
-                IconButton(
-                    icon: const Icon(Icons.upload),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/import');
-                    }),
-                IconButton(
-                    icon: const Icon(Icons.download),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/export');
-                    }),
-                IconButton(
-                    icon: const Icon(Icons.person),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/editProfile');
-                    }),
-                IconButton(
-                    icon: const Icon(Icons.logout),
-                    onPressed: () {
-                      logout(context);
-                    })
-              ]: [IconButton(
-                    icon: const Icon(Icons.logout),
-                    onPressed: () {
-                      logout(context);
-                    })],
+              actions: snapshot.data[2]
+                  ? [
+                      IconButton(
+                          icon: const Icon(Icons.upload),
+                          onPressed: () {
+                            importCsv(context);
+                          }),
+                      IconButton(
+                          icon: const Icon(Icons.download),
+                          onPressed: () async {
+                            DataBase().export(context);
+                          }),
+                      IconButton(
+                          icon: const Icon(Icons.person),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/editProfile');
+                          }),
+                      IconButton(
+                          icon: const Icon(Icons.logout),
+                          onPressed: () {
+                            logout(context);
+                          })
+                    ]
+                  : [
+                      IconButton(
+                          icon: const Icon(Icons.logout),
+                          onPressed: () {
+                            logout(context);
+                          })
+                    ],
             ),
-            body: Container( // Si la largeur est plus importante que la hauteur ou qu'elle dépasse un certain seuil, on veut un display horizontal, sinon on préfèrera un vertical (sur téléphone par exemple)
+            body: Container(
+                // Si la largeur est plus importante que la hauteur ou qu'elle dépasse un certain seuil, on veut un display horizontal, sinon on préfèrera un vertical (sur téléphone par exemple)
                 child: MediaQuery.of(context).size.width >
                             MediaQuery.of(context).size.height ||
                         MediaQuery.of(context).size.width > 900
                     ? Row(children: children)
                     : Column(children: children)));
       } else if (categories["status"] == 401) {
-        // L'authentification a échoué. On ne déconnecte pas l'utilisateur au cas où c'est une erreur de notre part, mais on le renvoie vers la page de connexion 
+        // L'authentification a échoué. On ne déconnecte pas l'utilisateur au cas où c'est une erreur de notre part, mais on le renvoie vers la page de connexion
         return const LoginPage();
       } else {
         // jsp ce qu'il a pû se passer, c'est probablement une erreur serveur (code 500)(wtf, c'est pas possible puisque c'est moi qui ai codé l'API et qu'elle est donc parfaite)(enfin presque 👀)(oui il y a beaucoup trop de parenthèses)(oui je fais exprès d'en ajouter)(je ne sais pas quoi dire de plus)
@@ -299,6 +358,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: db.getCategoriesAndAlerts(), builder: buildWithData); // Widget se mettant à jour en fonction de l'état de la requête, car la fonction build ne peut pas être asynchrone donc je ne peux pas juste attendre la réponse du serveur avant de retourner la page
+        future: db.getCategoriesAndAlerts(),
+        builder:
+            buildWithData); // Widget se mettant à jour en fonction de l'état de la requête, car la fonction build ne peut pas être asynchrone donc je ne peux pas juste attendre la réponse du serveur avant de retourner la page
   }
 }

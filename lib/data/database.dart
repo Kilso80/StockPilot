@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stockpilot/data/login_system.dart';
 import 'package:http/http.dart' as http;
 
@@ -6,6 +8,21 @@ class DataBase {
   LoginSystem idSystem = LoginSystem();
   String apiDomain = "nsi.stefa.org";
   String apiPath = "/stockpilot/API";
+
+  Future<void> export(context) async {
+    String path = "/export.php";
+    var res = await http.get(Uri.https(apiDomain, apiPath + path),
+        headers: idSystem.getHeader());
+    Clipboard.setData(ClipboardData(text: res.body)).then((value) =>
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Export copié dans le presse-papier"))));
+  }
+
+  Future<void> import(BuildContext context, String csv) async {
+    String path = '/import.php';
+    var res = await http.post(Uri.https(apiDomain, apiPath + path),
+        headers: idSystem.getHeader(), body: csv);
+  }
 
   Future<Map> getCategories() async {
     String path = "/categories/index.php";

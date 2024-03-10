@@ -73,18 +73,18 @@ class LoginSystem {
         case 200:
           _myBox.put("token", json["token"]);
           _myBox.put("time", DateTime.now().add(const Duration(minutes: 55)));
-          print("Logged in ${json['token']}");
+          // print("Logged in ${json['token']}");
           return 0;
         case 401:
-          print("Invalid credentials");
+          // print("Invalid credentials");
           // print(url);
           return 1;
         default:
-          print("Server error");
+          // print("Server error");
           return 2;
       }
     } catch (error) {
-      print("Connexion error");
+      // print("Connexion error");
       return 3; // Connexion error
     }
   }

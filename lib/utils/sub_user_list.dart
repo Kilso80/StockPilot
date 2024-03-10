@@ -33,8 +33,8 @@ class _SubUsersListState extends State<SubUsersList> {
                   backgroundColor: Colors.red,
                   label: const Text("Supprimer"),
                   onPressed: () async {
-                    await LoginSystem().deleteAccount(context, id);
                     Navigator.of(context).pop();
+                    await LoginSystem().deleteAccount(context, id);
                     setState(() {});
                   },
                 ),

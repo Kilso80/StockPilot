@@ -20,7 +20,7 @@ class DataBase {
 
   Future<void> import(BuildContext context, String csv) async {
     String path = '/import.php';
-    var res = await http.post(Uri.https(apiDomain, apiPath + path),
+    await http.post(Uri.https(apiDomain, apiPath + path),
         headers: idSystem.getHeader(), body: csv);
   }
 

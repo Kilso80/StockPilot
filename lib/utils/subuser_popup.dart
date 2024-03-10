@@ -69,9 +69,9 @@ class _CreateSubUserPopupState extends State<CreateSubUserPopup> {
                   ? () async {
                       await idSystem.createSubAccount(
                           idController.text, passwordController.text);
+                      Navigator.of(context).pop();
                       idController.text = "";
                       passwordController.text = "";
-                      Navigator.of(context).pop();
                     }
                   : null,
               label: const Text('Créer')),

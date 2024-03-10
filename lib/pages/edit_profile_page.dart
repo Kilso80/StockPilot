@@ -36,8 +36,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ActionChip(
                   backgroundColor: Colors.red,
                   label: const Text("Supprimer"),
-                  onPressed: () async {
-                    await idSystem.deleteAccount(context);
+                  onPressed: () {
+                    idSystem.deleteAccount(context);
                     idSystem.logout();
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();

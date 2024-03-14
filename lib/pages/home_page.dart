@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stockpilot/data/database.dart';
 import 'package:stockpilot/data/login_system.dart';
 import 'package:stockpilot/pages/login_page.dart';
+import 'package:stockpilot/utils/items_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -190,26 +191,8 @@ class _HomePageState extends State<HomePage> {
         // Cette liste est la liste des items sur la gauche de l'écran, triée par proximité au seuil d'alerte ainsi que la liste des catégories sur la droite
         List<Widget> children = [
           Expanded(
-              child: ListView.builder(
-            itemBuilder: (context, index) => ListTile(
-              textColor: alerts["items"][index]['underThreshold'] == "1"
-                  ? Colors.red
-                  : null, // Si l'item est en dessous du seuil d'alerte, on l'affiche en rouge
-              title: Text(alerts["items"][index]["name"]),
-              subtitle:
-                  Text(idToCategoryName(alerts["items"][index]["category"])),
-              trailing: Text(
-                  "${alerts["items"][index]["stock"]}/${alerts["items"][index]["threshold"]}"), // Pas besoin de gérer les cas où le seuil n'est pas défini, puisque seuls les items avec un seuil sont retournés par la requête
-              onTap: () {
-                Navigator.of(context)
-                    .pushNamed("/category",
-                        arguments: alerts["items"][index]["category"])
-                    .then((_) => setState(
-                        () {})); // CE SETSTATE EST IMPORTANT. Il est appelé lorsque la page catégorie ouverte par clic sur un item est fermée, sans lui les informations de la page ne seraient pas mises à jour avec les possibles modifications effectuées
-              },
-            ),
-            itemCount: alerts["items"].length,
-          )),
+              child: ItemsList(alerts: alerts,
+              idToCategoryName: idToCategoryName,)),
           Expanded(
             flex:
                 2, // Pour que la liste des catégories prenne deux tiers de la place, et que les items n'en prennent qu'un seul
@@ -278,7 +261,15 @@ class _HomePageState extends State<HomePage> {
 
         return Scaffold(
             appBar: AppBar(
-              title: const Text("StockPilot"),
+              title: const Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text("StockPilot"),
+                    Text(
+                      '  By Arthur Fiolet',
+                      style: TextStyle(fontSize: 8),
+                    )
+                  ]),
               actions: snapshot.data[2]
                   ? [
                       IconButton(

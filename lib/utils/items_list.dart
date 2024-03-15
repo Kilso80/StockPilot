@@ -20,14 +20,18 @@ class _ItemsListState extends State<ItemsList> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        TextField(
-          onChanged: (value) {
-            setState(() {
-              filter = value;
-            });
-          },
-          decoration: const InputDecoration(
-            icon: Icon(Icons.search)
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+          child: TextField(
+            onChanged: (value) {
+              setState(() {
+                filter = value;
+              });
+            },
+            decoration: const InputDecoration(
+              icon: Icon(Icons.search),
+              border: OutlineInputBorder(),
+            ),
           ),
         ),
         Expanded(

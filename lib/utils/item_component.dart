@@ -34,7 +34,7 @@ class _ItemElementState extends State<ItemElement> {
                     TextField(
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(), labelText: "Nom*"),
-                      maxLength: 15,
+                      maxLength: 50,
                       textInputAction: TextInputAction.next,
                       controller: nameController,
                     ),

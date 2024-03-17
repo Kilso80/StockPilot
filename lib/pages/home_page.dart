@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text("Créer une catégorie"),
               content: TextField(
                 controller: nameController,
-                maxLength: 15,
+                maxLength: 50,
                 autofocus: true,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               content: TextField(
                 autofocus: true,
                 controller: nameController,
-                maxLength: 15,
+                maxLength: 50,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Nom de la catégorie"),

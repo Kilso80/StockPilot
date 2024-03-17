@@ -26,7 +26,7 @@ class _CategoryPageState extends State<CategoryPage> {
           builder: (context) => AlertDialog(
                 title: const Text("Ajouter un élément"),
                 content: TextField(
-                  maxLength: 15,
+                  maxLength: 50,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "Nom de l'élément"),

@@ -46,12 +46,12 @@ class DataBase {
     // print(res.body);
   }
 
-  Future<void> renameCategory(id, String name) async {
+  Future<void> renameCategory(id, String name, String salle) async {
     String path = "/categories/index.php";
     // var res =
 
     await http.put(
-        Uri.parse("https://$apiDomain$apiPath$path?name=$name&id=$id"),
+        Uri.parse("https://$apiDomain$apiPath$path?name=$name&id=$id&salle=$salle"),
         headers: idSystem.getHeader());
     // print(res.body);
   }

@@ -55,21 +55,37 @@ class _HomePageState extends State<HomePage> {
             ));
   }
 
-  void editCategory(context, id, name) {
+  void editCategory(context, id, name, salle) {
     // Affiche une popup permettant de renommer ou de supprimer une catégorie
     TextEditingController nameController = TextEditingController(text: name);
+    TextEditingController salleController = TextEditingController(text: salle);
 
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
               title: const Text("Modifier une catégorie"),
-              content: TextField(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    autofocus: true,
+                    controller: nameController,
+                    maxLength: 50,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Nom de la catégorie",
+                        labelText: "Nom"),
+                  ),
+                  TextField(
                 autofocus: true,
-                controller: nameController,
+                controller: salleController,
                 maxLength: 50,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: "Nom de la catégorie"),
+                    hintText: "Nom de la salle",
+                    labelText: "Salle"),
+              ),
+                ],
               ),
               actions: [
                 ActionChip(
@@ -84,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                     label: const Text("Supprimer")),
                 ActionChip(
                     onPressed: () async {
-                      await db.renameCategory(id, nameController.text);
+                      await db.renameCategory(id, nameController.text, salleController.text);
                       Navigator.of(context).pop();
                       nameController.text = "";
                       setState(
@@ -191,8 +207,10 @@ class _HomePageState extends State<HomePage> {
         // Cette liste est la liste des items sur la gauche de l'écran, triée par proximité au seuil d'alerte ainsi que la liste des catégories sur la droite
         List<Widget> children = [
           Expanded(
-              child: ItemsList(alerts: alerts,
-              idToCategoryName: idToCategoryName,)),
+              child: ItemsList(
+            alerts: alerts,
+            idToCategoryName: idToCategoryName,
+          )),
           Expanded(
             flex:
                 2, // Pour que la liste des catégories prenne deux tiers de la place, et que les items n'en prennent qu'un seul
@@ -232,14 +250,16 @@ class _HomePageState extends State<HomePage> {
                         editCategory(
                             context,
                             categories["categories"][index]["id"],
-                            categories["categories"][index]["name"]);
+                            categories["categories"][index]["name"],
+                            categories["categories"][index]["salle"]);
                       },
                       onSecondaryTap: () {
                         // Same, que juste là ↑, mais pour les clics droits. Il faudrait bloquer le comportement par défaut (essayez le clic droit sur la version web, vous verrez de quoi je parle)
                         editCategory(
                             context,
                             categories["categories"][index]["id"],
-                            categories["categories"][index]["name"]);
+                            categories["categories"][index]["name"],
+                            categories["categories"][index]["salle"]);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(4),
@@ -249,8 +269,25 @@ class _HomePageState extends State<HomePage> {
                               border: Border.all(
                                   color: Theme.of(context).primaryColor)),
                           child: Center(
-                              child: Text(
-                                  categories["categories"][index]["name"])),
+                              child: categories["categories"][index]["salle"] == ''
+                                  ? Text(
+                                      categories["categories"][index]["name"])
+                                  : Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(categories["categories"][index]
+                                            ["name"]),
+                                        Text(
+                                          categories["categories"][index]
+                                                  ["salle"] ??
+                                              'Salle',
+                                          style: TextStyle(
+                                              fontSize: 10.0,
+                                              color:
+                                                  Theme.of(context).hintColor),
+                                        )
+                                      ],
+                                    )),
                         ),
                       ),
                     ),

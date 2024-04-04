@@ -112,6 +112,7 @@ class _ItemElementState extends State<ItemElement> {
     return Row(
       children: [
         IconButton(
+          iconSize: 32.0,
           icon: const Icon(Icons.exposure_minus_1),
           onPressed: widget.item!["stock"] > 0
               ? () async {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stockpilot/data/database.dart';
 import 'package:stockpilot/data/login_system.dart';
+import 'package:stockpilot/pages/home_page.dart';
 import 'package:stockpilot/utils/item_component.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -141,8 +142,7 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     DataBase db = DataBase();
     if (ModalRoute.of(context)!.settings.arguments == null) {
-      Navigator.of(context).pop();
-      return const Scaffold();
+      return const HomePage();
     }
     int id = int.parse(ModalRoute.of(context)!.settings.arguments as String);
     return FutureBuilder(

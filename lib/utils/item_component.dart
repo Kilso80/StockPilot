@@ -20,7 +20,7 @@ class _ItemElementState extends State<ItemElement> {
       TextEditingController stockController =
           TextEditingController(text: widget.item!["stock"].toString());
       TextEditingController commentaireController =
-          TextEditingController(text: widget.item!["commentaire"].toString());
+          TextEditingController(text: widget.item!["commentaire"] == null? '': widget.item!["commentaire"].toString());
       TextEditingController thresholdController = TextEditingController(
           text: widget.item!["threshold"] == null
               ? ""

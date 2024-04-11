@@ -77,22 +77,22 @@ class DataBase {
     return jsonDecode(res.body);
   }
 
-  Future<void> createItem(String name, category) async {
+  Future<void> createItem(String name, category, commentaire) async {
     String path = "/items/index.php";
     // var res =
     await http.post(
         Uri.parse(
-            "https://$apiDomain$apiPath$path?name=$name&category=$category"),
+            "https://$apiDomain$apiPath$path?name=$name&category=$category&commentaire=$commentaire"),
         headers: idSystem.getHeader());
     // print(res.body);
   }
 
-  Future<void> updateItem(id, String name, int stock, int? threshold) async {
+  Future<void> updateItem(id, String name, int stock, int? threshold, String commentaire) async {
     String path = "/items/index.php";
     // var res =
     await http.put(
         Uri.parse(
-            "https://$apiDomain$apiPath$path?id=$id&name=$name&stock=$stock&threshold=$threshold"),
+            "https://$apiDomain$apiPath$path?id=$id&name=$name&stock=$stock&threshold=$threshold&commentaire=$commentaire"),
         headers: idSystem.getHeader());
     // print(res.body);
   }

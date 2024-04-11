@@ -19,6 +19,8 @@ class _ItemElementState extends State<ItemElement> {
           TextEditingController(text: widget.item!["name"]);
       TextEditingController stockController =
           TextEditingController(text: widget.item!["stock"].toString());
+      TextEditingController commentaireController =
+          TextEditingController(text: widget.item!["commentaire"].toString());
       TextEditingController thresholdController = TextEditingController(
           text: widget.item!["threshold"] == null
               ? ""
@@ -59,6 +61,16 @@ class _ItemElementState extends State<ItemElement> {
                       controller: thresholdController,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      textInputAction: TextInputAction.next,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextField(
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Commentaire"),
+                      controller: commentaireController,
                     ),
                     const SizedBox(
                       height: 8,
@@ -87,8 +99,9 @@ class _ItemElementState extends State<ItemElement> {
                       widget.item!['name'] = name;
                       widget.item!['stock'] = stock;
                       widget.item!['threshold'] = threshold;
-                      DataBase().updateItem(
-                          widget.item!['id'], name, stock, threshold);
+                      widget.item!['commentaire'] = commentaireController.text;
+                      DataBase().updateItem(widget.item!['id'], name, stock,
+                          threshold, commentaireController.text);
                       Navigator.of(context).pop();
                       setState(() {});
                     },
@@ -111,34 +124,58 @@ class _ItemElementState extends State<ItemElement> {
     }
     return Row(
       children: [
-        IconButton(
-          iconSize: 32.0,
-          icon: const Icon(Icons.exposure_minus_1),
-          onPressed: widget.item!["stock"] > 0
-              ? () async {
-                  widget.item!["stock"] -= 1;
-                  DataBase().updateItem(
-                      widget.item!["id"],
-                      widget.item!["name"],
-                      widget.item!["stock"],
-                      widget.item!["threshold"]);
-                  setState(() {});
-                }
-              : null,
+        SizedBox(
+          width: 128.0,
+          child: Expanded(
+            child: IconButton(
+              iconSize: 32.0,
+              icon: const Icon(Icons.exposure_minus_1),
+              onPressed: widget.item!["stock"] > 0
+                  ? () async {
+                      widget.item!["stock"] -= 1;
+                      DataBase().updateItem(
+                          widget.item!["id"],
+                          widget.item!["name"],
+                          widget.item!["stock"],
+                          widget.item!["threshold"],
+                          widget.item!["commentaire"]);
+                      setState(() {});
+                    }
+                  : null,
+            ),
+          ),
         ),
-        Expanded(child: Text(widget.item!["name"])),
+        Expanded(
+            child: widget.item!['commentaire'] == null
+                ? Text(widget.item!["name"])
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(widget.item!["name"]),
+                      Text(widget.item!['commentaire'], style: TextStyle(color: Theme.of(context).hintColor),)
+                    ],
+                  )),
         Text(widget.item!["threshold"] == null
             ? "${widget.item!["stock"]} en stock"
             : "${widget.item!["stock"]} / ${widget.item!["threshold"]}"),
         IconButton(onPressed: editItem, icon: const Icon(Icons.more_vert)),
-        IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () async {
-              widget.item!["stock"] += 1;
-              DataBase().updateItem(widget.item!["id"], widget.item!["name"],
-                  widget.item!["stock"], widget.item!["threshold"]);
-              setState(() {});
-            }),
+        SizedBox(
+          width: 128.0,
+          child: Expanded(
+            child: IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () async {
+                  widget.item!["stock"] += 1;
+                  DataBase().updateItem(
+                      widget.item!["id"],
+                      widget.item!["name"],
+                      widget.item!["stock"],
+                      widget.item!["threshold"],
+                      widget.item!["commentaire"]);
+                  setState(() {});
+                }),
+          ),
+        ),
       ],
     );
   }

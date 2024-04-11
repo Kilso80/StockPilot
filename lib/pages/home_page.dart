@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Importer depuis le format csv"),
         content: Column(children: [
           const Text(
-              'Respectez le format suivant : `catégorie`,`nom`,`stock`,`seuil` pour chaque ligne'),
+              'Respectez le format suivant : `catégorie`,`nom`,`stock`,`seuil`,`salle`,`commentaire` pour chaque ligne'),
           SizedBox(
             height: 200.0,
             child: TextField(

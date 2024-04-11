@@ -21,6 +21,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
     Future<void> createItem(context, id) async {
       final TextEditingController nameController = TextEditingController();
+      
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -44,7 +45,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   ActionChip(
                       label: const Text("Créer"),
                       onPressed: () async {
-                        await DataBase().createItem(nameController.text, id);
+                        await DataBase().createItem(nameController.text, id, "");
                         nameController.text = '';
                         Navigator.of(context).pop();
                         setState(() {});

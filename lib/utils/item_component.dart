@@ -161,7 +161,6 @@ class _ItemElementState extends State<ItemElement> {
         IconButton(onPressed: editItem, icon: const Icon(Icons.more_vert)),
         SizedBox(
           width: 128.0,
-          child: Expanded(
             child: IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () async {
@@ -174,7 +173,6 @@ class _ItemElementState extends State<ItemElement> {
                       widget.item!["commentaire"]);
                   setState(() {});
                 }),
-          ),
         ),
       ],
     );

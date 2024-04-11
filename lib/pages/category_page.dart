@@ -140,6 +140,10 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     DataBase db = DataBase();
+    if (ModalRoute.of(context)!.settings.arguments == null) {
+      Navigator.of(context).pop();
+      return const Scaffold();
+    }
     int id = int.parse(ModalRoute.of(context)!.settings.arguments as String);
     return FutureBuilder(
         future: () async {
